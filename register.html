@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Farm2School</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <style>
+        .auth-page {
+            padding: 100px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+        .auth-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header h1 {
+            color: #2c8a2e;
+            margin-bottom: 10px;
+        }
+        .auth-header p {
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .user-type-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .user-type-option {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .user-type-option:hover {
+            border-color: #2c8a2e;
+            background-color: #f8f9fa;
+        }
+        .user-type-option.selected {
+            border-color: #2c8a2e;
+            background-color: #e8f5e9;
+        }
+        .user-type-option i {
+            font-size: 2rem;
+            color: #2c8a2e;
+            margin-bottom: 10px;
+        }
+        .user-type-option h3 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .user-type-option p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .auth-footer p {
+            color: #666;
+        }
+        .auth-footer a {
+            color: #2c8a2e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .input-box {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            margin: 25px 0;
+        }
+        
+        .input-box input,
+        .input-box select {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: 2px solid rgba(44, 138, 46, 0.2);
+            border-radius: 40px;
+            font-size: 16px;
+            color: #333;
+            padding: 20px 45px 20px 20px;
+            transition: 0.5s;
+            outline: none;
+        }
+        
+        .input-box input:focus,
+        .input-box input:valid,
+        .input-box select:focus,
+        .input-box select:valid {
+            border-color: #2c8a2e;
+        }
+        
+        .input-box label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #666;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+        
+        .input-box input:focus~label,
+        .input-box input:valid~label,
+        .input-box select:focus~label,
+        .input-box select.has-value~label {
+            top: 0;
+            font-size: 12px;
+            color: #2c8a2e;
+            background: white;
+            padding: 0 6px;
+        }
+        
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #666;
+            transition: 0.5s;
+        }
+        
+        .input-box input:focus~i,
+        .input-box input:valid~i,
+        .input-box select:focus~i,
+        .input-box select.has-value~i {
+            color: #2c8a2e;
+        }
+        
+        .animation {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(100%);
+            animation: slideUp 1s ease forwards;
+            animation-delay: calc(0.1s * var(--i));
+        }
+        
+        @keyframes slideUp {
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-decorations">
+            <div class="nav-particle particle-1"></div>
+            <div class="nav-particle particle-2"></div>
+            <div class="nav-particle particle-3"></div>
+        </div>
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <div class="logo-wrapper">
+                        <img src="{{ url_for('static', filename='images/bg.jpg') }}" alt="Farm2School Logo" class="logo-img">
+                        <div class="logo-glow"></div>
+                    </div>
+                    <div class="logo-content">
+                        <span class="logo-text">Farm2School</span>
+                        <span class="logo-tagline">Fresh • Local • Sustainable</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/login" class="btn">Login</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Register Page -->
+    <section class="auth-page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>{{ translations.register.title }}</h1>
+                    <p>{{ translations.register.subtitle }}</p>
+                </div>
+                
+                {% if error %}
+                <div class="error-message">
+                    {{ error }}
+                </div>
+                {% endif %}
+                
+                <form action="/register" method="POST">
+                    <div class="form-group">
+                        <label>{{ translations.register.user_type }}</label>
+                        <div class="user-type-selection">
+                            <div class="user-type-option" data-type="farmer">
+                                <i class="fas fa-seedling"></i>
+                                <h3>{{ translations.register.farmer }}</h3>
+                                <p>{{ translations.register.farmer_desc }}</p>
+                                <input type="radio" name="user_type" value="farmer" style="display: none;">
+                            </div>
+                            <div class="user-type-option" data-type="school">
+                                <i class="fas fa-school"></i>
+                                <h3>{{ translations.register.school }}</h3>
+                                <p>{{ translations.register.school_desc }}</p>
+                                <input type="radio" name="user_type" value="school" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-box animation" style="--i:3; --j:24">
+                        <input type="text" id="name" name="name" required>
+                        <label>{{ translations.register.name }}</label>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    
+                    <div class="input-box animation" style="--i:4; --j:25">
+                        <input type="email" id="email" name="email" required>
+                        <label>{{ translations.register.email }}</label>
+                        <i class='bx bxs-envelope'></i>
+                    </div>
+                    
+                    <div class="form-group animation" style="--i:5; --j:26">
+                        <label for="district">{{ translations.register.district }}</label>
+                        <select id="district" name="district" required>
+                            <option value="">Select your district</option>
+                            <option value="Coimbatore">Coimbatore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Madurai">Madurai</option>
+                            <option value="Salem">Salem</option>
+                            <option value="Trichy">Trichy</option>
+                            <option value="Tirunelveli">Tirunelveli</option>
+                            <option value="Erode">Erode</option>
+                            <option value="Vellore">Vellore</option>
+                            <option value="Thanjavur">Thanjavur</option>
+                            <option value="Kanchipuram">Kanchipuram</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-box animation" style="--i:6; --j:27">
+                        <input type="text" id="location" name="location" required>
+                        <label>{{ translations.register.location }}</label>
+                        <i class='bx bxs-location-plus'></i>
+                    </div>
+                    
+                    <div class="input-box animation" style="--i:7; --j:28">
+                        <input type="password" id="password" name="password" required>
+                        <label>{{ translations.register.password }}</label>
+                        <i class='bx bxs-lock-alt'></i>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">{{ translations.register.register_btn }}</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>{{ translations.register.have_account }} <a href="/login?lang={{ lang }}">{{ translations.register.login_here }}</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userTypeOptions = document.querySelectorAll('.user-type-option');
+            const districtSelect = document.getElementById('district');
+            
+            userTypeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    userTypeOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                    
+                    const radioInput = this.querySelector('input[type="radio"]');
+                    radioInput.checked = true;
+                });
+            });
+            
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="{{ lang or 'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ translations.title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(44, 138, 46, 0.6), rgba(76, 175, 80, 0.6)), 
+                        url('https://greenstories.co.in/wp-content/uploads/2021/04/Ramkumar-Radhakrishnan-Wikimedia-1569929663.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .about, .how-it-works, .features, .contact {
+            background: transparent;
+            margin: 20px 0;
+            padding: 40px 0;
+        }
+        
+        .about {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .about h2 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-size: 2.8rem;
+            font-weight: 600;
+        }
+        
+        .about p {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-size: 1.3rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .about .section-header p {
+            font-size: 1.4rem;
+            font-weight: 300;
+        }
+        
+        .how-it-works h2, .features h2, .contact h2,
+        .how-it-works p, .features p, .contact p {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .step, .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+        }
+        
+        .contact-info, .contact-form {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .language-switcher a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 2px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .language-switcher a.active {
+            background: #2c8a2e;
+            color: white;
+        }
+        
+        .language-switcher a:hover {
+            background: #2c8a2e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="/home?lang=en" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
+        <a href="/home?lang=ta" class="{{ 'active' if lang == 'ta' else '' }}">தமிழ்</a>
+        <a href="/home?lang=hi" class="{{ 'active' if lang == 'hi' else '' }}">हिं</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-decorations">
+            <div class="nav-particle particle-1"></div>
+            <div class="nav-particle particle-2"></div>
+            <div class="nav-particle particle-3"></div>
+        </div>
+        <div class="container">
+            <div class="logo">
+                <a href="/home?lang={{ lang }}">
+                    <div class="logo-wrapper">
+                        <img src="{{ url_for('static', filename='images/bg.jpg') }}" alt="Farm2School Logo" class="logo-img">
+                        <div class="logo-glow"></div>
+                    </div>
+                    <div class="logo-content">
+                        <span class="logo-text">Farm2School</span>
+                        <span class="logo-tagline">{{ translations.tagline }}</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">{{ translations.nav.home }}</a></li>
+                <li><a href="#about">{{ translations.nav.about }}</a></li>
+                <li><a href="#how-it-works">{{ translations.nav.how_it_works }}</a></li>
+                <li><a href="#features">{{ translations.nav.features }}</a></li>
+                <li><a href="#contact">{{ translations.nav.contact }}</a></li>
+                <li><a href="/login?lang={{ lang }}" class="btn">{{ translations.nav.login }}</a></li>
+                <li><a href="/register?lang={{ lang }}" class="btn btn-primary">{{ translations.nav.register }}</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content scroll-animate">
+                <h1>{{ translations.hero.title }}</h1>
+                <p>{{ translations.hero.subtitle }}</p>
+                <div class="hero-buttons">
+                    <a href="/register?lang={{ lang }}" class="btn btn-primary">{{ translations.hero.get_started }}</a>
+                    <a href="#about" class="btn btn-outline">{{ translations.hero.learn_more }}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <h2>{{ translations.about.title }}</h2>
+                <p>{{ translations.about.subtitle }}</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text scroll-animate-left">
+                    <p>{{ translations.about.description1 }}</p>
+                    <p>{{ translations.about.description2 }}</p>
+                </div>
+                <div class="about-image scroll-animate-right">
+                    <img src="https://as2.ftcdn.net/v2/jpg/06/18/97/67/1000_F_618976794_VlTUWhOgzFDMaaY1xTDATLuQTkjzLGyk.jpg" alt="Farm fields">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <h2>{{ translations.how_it_works.title }}</h2>
+                <p>{{ translations.how_it_works.subtitle }}</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>1. {{ translations.how_it_works.step1.title }}</h3>
+                    <p>{{ translations.how_it_works.step1.description }}</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <h3>2. {{ translations.how_it_works.step2.title }}</h3>
+                    <p>{{ translations.how_it_works.step2.description }}</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>3. {{ translations.how_it_works.step3.title }}</h3>
+                    <p>{{ translations.how_it_works.step3.description }}</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>4. {{ translations.how_it_works.step4.title }}</h3>
+                    <p>{{ translations.how_it_works.step4.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <h2>{{ translations.features.title }}</h2>
+                <p>{{ translations.features.subtitle }}</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>{{ translations.features.feature1.title }}</h3>
+                    <p>{{ translations.features.feature1.description }}</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>{{ translations.features.feature2.title }}</h3>
+                    <p>{{ translations.features.feature2.description }}</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>{{ translations.features.feature3.title }}</h3>
+                    <p>{{ translations.features.feature3.description }}</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>{{ translations.features.feature4.title }}</h3>
+                    <p>{{ translations.features.feature4.description }}</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>{{ translations.features.feature5.title }}</h3>
+                    <p>{{ translations.features.feature5.description }}</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>{{ translations.features.feature6.title }}</h3>
+                    <p>{{ translations.features.feature6.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header scroll-animate">
+                <h2>{{ translations.contact.title }}</h2>
+                <p>{{ translations.contact.subtitle }}</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>{{ translations.contact.address.title }}</h3>
+                            <p>{{ translations.contact.address.value }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h3>{{ translations.contact.phone.title }}</h3>
+                            <p>+91 8072210137</p>
+                            <p>+91 7418266029</p>
+                            <p>+91 9443073486</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>{{ translations.contact.email.title }}</h3>
+                            <p>susmitha.vcsc@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form action="/contact" method="POST">
+                        <input type="hidden" name="lang" value="{{ lang }}">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="{{ translations.contact.form.name }}" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="{{ translations.contact.form.email }}" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="{{ translations.contact.form.message }}" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{ translations.contact.form.send }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Farm2School</h2>
+                    <p>{{ translations.footer.tagline }}</p>
+                </div>
+                <div class="footer-links">
+                    <h3>{{ translations.footer.quick_links }}</h3>
+                    <ul>
+                        <li><a href="#home">{{ translations.nav.home }}</a></li>
+                        <li><a href="#about">{{ translations.nav.about }}</a></li>
+                        <li><a href="#how-it-works">{{ translations.nav.how_it_works }}</a></li>
+                        <li><a href="#features">{{ translations.nav.features }}</a></li>
+                        <li><a href="#contact">{{ translations.nav.contact }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>{{ translations.footer.follow_us }}</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Farm2School. {{ translations.footer.rights }}</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
